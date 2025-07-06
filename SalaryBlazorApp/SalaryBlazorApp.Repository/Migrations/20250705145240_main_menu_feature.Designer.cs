@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SalaryBlazorApp.Repository.Data;
 
@@ -10,9 +11,11 @@ using SalaryBlazorApp.Repository.Data;
 namespace SalaryBlazorApp.Repository.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250705145240_main_menu_feature")]
+    partial class main_menu_feature
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,7 +41,7 @@ namespace SalaryBlazorApp.Repository.Migrations
                     b.Property<int>("Order")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ParentId")
+                    b.Property<int>("ParentId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -50,8 +53,6 @@ namespace SalaryBlazorApp.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentId");
-
                     b.ToTable("MenuItem");
 
                     b.HasData(
@@ -60,6 +61,7 @@ namespace SalaryBlazorApp.Repository.Migrations
                             Id = 1,
                             IsActive = false,
                             Order = 1,
+                            ParentId = 0,
                             Title = "Liquidaciones",
                             Url = "/liquidaciones"
                         },
@@ -68,6 +70,7 @@ namespace SalaryBlazorApp.Repository.Migrations
                             Id = 2,
                             IsActive = false,
                             Order = 2,
+                            ParentId = 0,
                             Title = "Informes",
                             Url = "/informes"
                         },
@@ -76,6 +79,7 @@ namespace SalaryBlazorApp.Repository.Migrations
                             Id = 3,
                             IsActive = false,
                             Order = 3,
+                            ParentId = 0,
                             Title = "Archivos",
                             Url = "/archivos"
                         },
@@ -84,6 +88,7 @@ namespace SalaryBlazorApp.Repository.Migrations
                             Id = 4,
                             IsActive = false,
                             Order = 4,
+                            ParentId = 0,
                             Title = "Varios",
                             Url = "/varios"
                         },
@@ -92,6 +97,7 @@ namespace SalaryBlazorApp.Repository.Migrations
                             Id = 5,
                             IsActive = false,
                             Order = 5,
+                            ParentId = 0,
                             Title = "Consultas",
                             Url = "/consultas"
                         },
@@ -100,6 +106,7 @@ namespace SalaryBlazorApp.Repository.Migrations
                             Id = 6,
                             IsActive = false,
                             Order = 6,
+                            ParentId = 0,
                             Title = "Ejecutar",
                             Url = "/ejecutar"
                         },
@@ -108,6 +115,7 @@ namespace SalaryBlazorApp.Repository.Migrations
                             Id = 7,
                             IsActive = false,
                             Order = 7,
+                            ParentId = 0,
                             Title = "Salir",
                             Url = "/salir"
                         },
@@ -218,185 +226,27 @@ namespace SalaryBlazorApp.Repository.Migrations
                             ParentId = 12,
                             Title = "Importación de archivos",
                             Url = "/importacion_archivos"
-                        },
-                        new
-                        {
-                            Id = 20,
-                            IsActive = false,
-                            Order = 1,
-                            ParentId = 3,
-                            Title = "Legajos"
-                        },
-                        new
-                        {
-                            Id = 21,
-                            IsActive = false,
-                            Order = 2,
-                            ParentId = 3,
-                            Title = "Datos para SICOSS"
-                        },
-                        new
-                        {
-                            Id = 22,
-                            IsActive = false,
-                            Order = 3,
-                            ParentId = 3,
-                            Title = "Conceptos"
-                        },
-                        new
-                        {
-                            Id = 23,
-                            IsActive = false,
-                            Order = 4,
-                            ParentId = 3,
-                            Title = "Grupos de conceptos",
-                            Url = "/grupos_conceptos"
-                        },
-                        new
-                        {
-                            Id = 24,
-                            IsActive = false,
-                            Order = 5,
-                            ParentId = 3,
-                            Title = "Reparticiones",
-                            Url = "/reparticiones"
-                        },
-                        new
-                        {
-                            Id = 25,
-                            IsActive = false,
-                            Order = 6,
-                            ParentId = 3,
-                            Title = "Convenios"
-                        },
-                        new
-                        {
-                            Id = 26,
-                            IsActive = false,
-                            Order = 7,
-                            ParentId = 3,
-                            Title = "Centros de costos",
-                            Url = "/centro_costos"
-                        },
-                        new
-                        {
-                            Id = 27,
-                            IsActive = false,
-                            Order = 8,
-                            ParentId = 3,
-                            Title = "Sectores",
-                            Url = "/sectores"
-                        },
-                        new
-                        {
-                            Id = 28,
-                            IsActive = false,
-                            Order = 9,
-                            ParentId = 3,
-                            Title = "Referencias contables",
-                            Url = "/referencias_contables"
-                        },
-                        new
-                        {
-                            Id = 29,
-                            IsActive = false,
-                            Order = 10,
-                            ParentId = 3,
-                            Title = "Impuesto a las ganacias"
-                        },
-                        new
-                        {
-                            Id = 30,
-                            IsActive = false,
-                            Order = 11,
-                            ParentId = 3,
-                            Title = "Billetes y monedas",
-                            Url = "/billetes_monedas"
-                        },
-                        new
-                        {
-                            Id = 31,
-                            IsActive = false,
-                            Order = 1,
-                            ParentId = 20,
-                            Title = "Datos operativos",
-                            Url = "/datos_operativos"
-                        },
-                        new
-                        {
-                            Id = 32,
-                            IsActive = false,
-                            Order = 2,
-                            ParentId = 21,
-                            Title = "Datos generales",
-                            Url = "/datos_generales"
-                        },
-                        new
-                        {
-                            Id = 33,
-                            IsActive = false,
-                            Order = 3,
-                            ParentId = 22,
-                            Title = "Datos para SICOSS",
-                            Url = "/datos_sicoss"
-                        },
-                        new
-                        {
-                            Id = 34,
-                            IsActive = false,
-                            Order = 4,
-                            ParentId = 23,
-                            Title = "Acumulados mensuales",
-                            Url = "/acum_mensuales"
-                        },
-                        new
-                        {
-                            Id = 35,
-                            IsActive = false,
-                            Order = 5,
-                            ParentId = 24,
-                            Title = "Acumulados anuales",
-                            Url = "/acum_anuales"
-                        },
-                        new
-                        {
-                            Id = 36,
-                            IsActive = false,
-                            Order = 6,
-                            ParentId = 25,
-                            Title = "Imp. a las ganacias"
-                        },
-                        new
-                        {
-                            Id = 37,
-                            IsActive = false,
-                            Order = 7,
-                            ParentId = 26,
-                            Title = "Familiares",
-                            Url = "/familiares"
-                        },
-                        new
-                        {
-                            Id = 38,
-                            IsActive = false,
-                            Order = 8,
-                            ParentId = 27,
-                            Title = "Reparticiones"
                         });
                 });
 
-            modelBuilder.Entity("SalaryBlazorApp.Repository.Models.MenuItem", b =>
+            modelBuilder.Entity("SalaryBlazorApp.Repository.Models.Product", b =>
                 {
-                    b.HasOne("SalaryBlazorApp.Repository.Models.MenuItem", "Parent")
-                        .WithMany("Children")
-                        .HasForeignKey("ParentId");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Navigation("Parent");
-                });
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-            modelBuilder.Entity("SalaryBlazorApp.Repository.Models.MenuItem", b =>
-                {
-                    b.Navigation("Children");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Products");
                 });
 #pragma warning restore 612, 618
         }
