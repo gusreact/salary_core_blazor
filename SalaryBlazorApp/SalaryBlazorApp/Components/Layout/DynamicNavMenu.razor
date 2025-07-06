@@ -1,0 +1,82 @@
+﻿@using SalaryBlazorApp.Repository.Models
+@inject SalaryBlazorApp.Repository.Services.MenuService MenuService
+@inject NavigationManager Navigation
+
+@if (menuItems is null)
+{
+    <p>Cargando menú...</p>
+}
+else
+{
+    <nav class="nav flex-column">
+        @foreach (var item in menuItems)
+        {
+            @RenderMenuItem(item)
+        }
+    </nav>
+}
+
+@code {
+    private List<MenuItem>? menuItems;
+
+    protected override async Task OnInitializedAsync()
+    {
+        menuItems = await MenuService.GetMenuHierarchyAsync();
+    }
+
+    RenderFragment RenderMenuItem(MenuItem item) => builder =>
+    {
+        int seq = 0;
+        bool hasChildren = item.Children?.Any() == true;
+        string itemClass = hasChildren ? "nav-item has-children" : "nav-item";
+
+        builder.OpenElement(seq++, "div");
+        builder.AddAttribute(seq++, "class", itemClass);
+
+        if (!string.IsNullOrEmpty(item.Url))
+        {
+            builder.OpenComponent<NavLink>(seq++);
+            builder.AddAttribute(seq++, "class", "nav-link white-text pointer d-flex align-items-center");
+            builder.AddAttribute(seq++, "href", item.Url);
+            builder.AddAttribute(seq++, "Match", NavLinkMatch.Prefix);
+            builder.AddAttribute(seq++, "ChildContent", (RenderFragment)(childBuilder =>
+            {
+                childBuilder.AddContent(seq++, item.Title);
+                childBuilder.OpenElement(seq++, "i");
+                childBuilder.AddAttribute(seq++, "class", "bi bi-box-arrow-right ms-3 me-auto");
+                childBuilder.CloseElement();
+            }));
+
+            builder.CloseComponent();
+        }
+        else
+        {
+            builder.OpenElement(seq++, "span");
+            builder.AddAttribute(seq++, "class", "nav-link white-text pointer");
+            
+            if (hasChildren)
+            {
+                builder.OpenElement(seq++, "i");
+                builder.AddAttribute(seq++, "class", "bi bi-list-nested me-2");
+                builder.CloseElement();
+            }
+            builder.AddContent(seq++, item.Title);
+            builder.CloseElement();
+        }
+
+        if (hasChildren)
+        {
+            builder.OpenElement(seq++, "div");
+            builder.AddAttribute(seq++, "class", "submenu nav flex-column sidebarBG width-auto");
+
+            foreach (var child in item.Children)
+            {
+                builder.AddContent(seq++, RenderMenuItem(child));
+            }
+
+            builder.CloseElement(); // .submenu
+        }
+
+        builder.CloseElement(); // .nav-item
+    };
+}
