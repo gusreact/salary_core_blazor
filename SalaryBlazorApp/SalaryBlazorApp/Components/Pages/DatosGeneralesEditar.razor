@@ -1,0 +1,231 @@
+﻿@page "/empleados/editar/{id:int}"
+@rendermode InteractiveServer
+
+@inject IDbContextFactory<SalaryBlazorApp.Repository.Data.AppDbContext> DbFactory
+@inject NavigationManager Navigation
+@inject IJSRuntime JS
+@using Microsoft.EntityFrameworkCore
+@using SalaryBlazorApp.Repository.Models
+
+<h3>Editar Empleado</h3>
+
+@if (empleado == null)
+{
+    <p>Cargando...</p>
+}
+else
+{
+    <EditForm EditContext="@editContext" FormName="ActualizarEmpleadoForm">
+        <div class="row">
+            <div class="mb-3 col-md-4">
+                <label>Apellido</label>
+                    <InputText class="form-control" @bind-Value="empleado.Apellido" />
+            </div>
+            <div class="mb-3 col-md-4">
+                <label>Apellido/Casada</label>
+                    <InputText class="form-control" @bind-Value="empleado.ApellidoCasada" />
+            </div>
+            <div class="mb-3 col-md-4">
+                <label>Nombres</label>
+                    <InputText class="form-control" @bind-Value="empleado.Nombres" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="mb-3 col-md-2">
+                <label>Documento: Tipo</label>
+                    <InputText class="form-control" @bind-Value="empleado.TipoDocumento" />
+            </div>
+            <div class="mb-3 col-md-2">
+                <label>Nro</label>
+                    <InputText class="form-control" @bind-Value="empleado.NroDocumento" />
+            </div>
+            <div class="mb-3 col-md-3">
+                <label>Provincia de emisión</label>
+                    <InputText class="form-control" @bind-Value="empleado.ProvinciaEmision" />
+            </div>
+            <div class="mb-3 col-md-2">
+                <label>CUIL</label>
+                    <InputText class="form-control" @bind-Value="empleado.Cuil" />
+            </div>
+            <div class="mb-3 col-md-3">
+                <label>C.A.T.</label>
+                    <InputText class="form-control" @bind-Value="empleado.Cat" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="mb-3 col-md-3">
+                <label>Fecha de Nacimiento</label>
+                    <InputDate class="form-control" @bind-Value="empleado.FechaNacimiento" />
+            </div>
+            <div class="mb-3 col-md-3">
+                <label>Nacionalidad</label>
+                    <InputText class="form-control" @bind-Value="empleado.Nacionalidad" />
+            </div>
+            <div class="mb-3 col-md-3">
+                <label>Sexo</label>
+                    <InputText class="form-control" @bind-Value="empleado.Sexo" />
+            </div>
+            <div class="mb-3 col-md-3">
+                <label>Estado Civil</label>
+                    <InputText class="form-control" @bind-Value="empleado.EstadoCivil" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="mb-3 col-md-3">
+                <label>Domicilio: Calle</label>
+                    <InputText class="form-control" @bind-Value="empleado.DomicilioCalle" />
+            </div>
+            <div class="mb-3 col-md-1">
+                <label>Número</label>
+                    <InputText class="form-control" @bind-Value="empleado.DomicilioNro" />
+            </div>
+            <div class="mb-3 col-md-1">
+                <label>Piso</label>
+                    <InputText class="form-control" @bind-Value="empleado.DomicilioPiso" />
+            </div>
+            <div class="mb-3 col-md-1">
+                <label>Depto</label>
+                    <InputText class="form-control" @bind-Value="empleado.DomicilioDepto" />
+            </div>
+            <div class="mb-3 col-md-1">
+                <label>C.P.</label>
+                    <InputText class="form-control" @bind-Value="empleado.DomicilioPostal" />
+            </div>
+            <div class="mb-3 col-md-2">
+                <label>Localidad</label>
+                    <InputText class="form-control" @bind-Value="empleado.Localidad" />
+            </div>
+            <div class="mb-3 col-md-3">
+                <label>Provincia</label>
+                    <InputText class="form-control" @bind-Value="empleado.Provincia" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="mb-3 col-md-3">
+                <label>Situación</label>
+                    <InputText class="form-control" @bind-Value="empleado.Situacion" />
+            </div>
+            <div class="mb-3 col-md-2">
+                <label>Código de baja</label>
+                    <InputText class="form-control" @bind-Value="empleado.CodigoBaja" />
+            </div>
+            <div class="mb-3 col-md-2">
+                <label>Carácter servicio</label>
+                    <InputText class="form-control" @bind-Value="empleado.CaracterServicio" />
+            </div>
+            <div class="mb-3 col-md-2">
+                <label>Categoría</label>
+                    <InputText class="form-control" @bind-Value="empleado.Categoria" />
+            </div>
+            <div class="mb-3 col-md-1">
+                <label>Discapacidad</label>
+                    <InputCheckbox class="form-check-input" @bind-Value="empleado.Discapacidad" />
+            </div>
+            <div class="mb-3 col-md-2">
+                <label>Domicilio de explotación</label>
+                    <InputText class="form-control" @bind-Value="empleado.DomicilioExplotacion" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="mb-3 col-md-3">
+                <label>Teléfono</label>
+                    <InputText class="form-control" @bind-Value="empleado.Telefono" />
+            </div>
+            <div class="mb-3 col-md-9">
+                <label>Observaciones</label>
+                    <InputText class="form-control" @bind-Value="empleado.Observaciones" />
+            </div>
+        </div>
+
+        <button type="button" @onclick="Guardar" class="btn btn-success">Actualizar Datos</button>
+        <button type="button" class="btn btn-secondary ms-2" @onclick="() => RedirectTo()">Cancelar</button>
+        <DataAnnotationsValidator />
+        <div class="modal fade" id="alertaErrores" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-warning">
+                        <h5 class="modal-title">Campos incompletos</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <ValidationSummary />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Aceptar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </EditForm>
+}
+
+@code {
+    [Parameter] public int id { get; set; }
+    private Empleado empleado;
+    private bool mostrarErrores = false;
+    private bool _jsRendered = false;
+    private EditContext editContext;
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var Db = DbFactory.CreateDbContext();
+        empleado = await Db.Empleado.FindAsync(id);
+        editContext = new EditContext(empleado);
+    }
+
+    private async Task Guardar()
+    {
+        try
+        {
+            var isValid = editContext.Validate();
+            if (!isValid)
+            {
+                mostrarErrores = true;
+                _jsRendered = false;
+                StateHasChanged();
+                return;
+            }
+
+            using var Db = DbFactory.CreateDbContext();
+            Db.Empleado.Update(empleado);
+            await Db.SaveChangesAsync();
+            Navigation.NavigateTo("/datos_generales");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Error al guardar: {ex.Message}");
+        }
+    }
+
+    private void RedirectTo()
+    {
+        Navigation.NavigateTo("/datos_generales");
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!_jsRendered && mostrarErrores)
+        {
+            _jsRendered = true; // solo una vez por ciclo
+            mostrarErrores = false;
+
+            try
+            {
+                var modalJS = await JS.InvokeAsync<IJSObjectReference>("import", "./js/modal-helper.js");
+                await modalJS.InvokeVoidAsync("mostrarModal", "#alertaErrores");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error JS: {ex.Message}");
+            }
+        }
+    }
+
+    private Task MostrarErrores(EditContext editContext)
+    {
+        mostrarErrores = true;
+        _jsRendered = false;
+        StateHasChanged(); // Forzar render
+        return Task.CompletedTask;
+    }
+}

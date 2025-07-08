@@ -1,0 +1,160 @@
+﻿@page "/empleados/detalle/{id:int}"
+@rendermode InteractiveServer
+
+@inject IDbContextFactory<SalaryBlazorApp.Repository.Data.AppDbContext> DbFactory
+@inject NavigationManager Navigation
+
+@using Microsoft.EntityFrameworkCore
+@using SalaryBlazorApp.Repository.Models
+
+<h3>Detalle del Empleado</h3>
+
+@if (empleado == null)
+{
+    <p>Cargando...</p>
+}
+else
+{
+    <div class="mb-3">
+        <label><b>Legajo:</b></label>
+        <span>@empleado.Legajo</span>
+    </div>
+    <div class="row border-section rounded">
+        <div class="mb-3 col-md-4">
+            <label><b>Apellido:</b></label>
+            <span>@empleado.Apellido</span>
+        </div>
+        <div class="mb-3 col-md-4">
+            <label><b>Apellido/Casada:</b></label>
+            <span>@empleado.ApellidoCasada</span>
+        </div>
+        <div class="mb-3 col-md-4">
+            <label><b>Nombres:</b></label>
+            <span>@empleado.Nombres</span>
+        </div>
+    </div>
+    <div class="row border-section rounded">
+        <div class="mb-3 col-md-2">
+            <label><b>Documento Tipo:</b></label>
+            <span>@empleado.TipoDocumento</span>
+        </div>
+        <div class="mb-3 col-md-2">
+            <label><b>Documento Nro:</b></label>
+            <span>@empleado.NroDocumento</span>
+        </div>
+        <div class="mb-3 col-md-3">
+            <label><b>Provincia de emisión:</b></label>
+            <span>@empleado.ProvinciaEmision</span>
+        </div>
+        <div class="mb-3 col-md-2">
+            <label><b>CUIL:</b></label>
+            <span>@empleado.Cuil</span>
+        </div>
+        <div class="mb-3 col-md-3">
+            <label><b>C.A.T.:</b></label>
+            <span>@empleado.Cat</span>
+        </div>
+    </div>
+    <div class="row border-section rounded">
+        <div class="mb-3 col-md-3">
+            <label><b>Fecha de Nacimiento:</b></label>
+            <span>@empleado.FechaNacimiento</span>
+        </div>
+        <div class="mb-3 col-md-3">
+            <label><b>Nacionalidad:</b></label>
+            <span>@empleado.Nacionalidad</span>
+        </div>
+        <div class="mb-3 col-md-3">
+            <label><b>Sexo:</b></label>
+            <span>@empleado.Sexo</span>
+        </div>
+        <div class="mb-3 col-md-3">
+            <label><b>Estado Civil:</b></label>
+            <span>@empleado.EstadoCivil</span>
+        </div>
+    </div>
+    <div class="row border-section rounded">
+        <div class="mb-3 col-md-3">
+            <label><b>Domicilio Calle:</b></label>
+            <span>@empleado.DomicilioCalle</span>
+        </div>
+        <div class="mb-3 col-md-1">
+            <label><b>Número:</b></label>
+            <span>@empleado.DomicilioNro</span>
+        </div>
+        <div class="mb-3 col-md-1">
+            <label><b>Piso:</b></label>
+            <span>@empleado.DomicilioPiso</span>
+        </div>
+        <div class="mb-3 col-md-1">
+            <label><b>Depto:</b></label>
+            <span>@empleado.DomicilioDepto</span>
+        </div>
+        <div class="mb-3 col-md-1">
+            <label><b>C.P.:</b></label>
+            <span>@empleado.DomicilioPostal</span>
+        </div>
+        <div class="mb-3 col-md-2">
+            <label><b>Localidad:</b></label>
+            <span>@empleado.Localidad</span>
+        </div>
+        <div class="mb-3 col-md-3">
+            <label><b>Provincia:</b></label>
+            <span>@empleado.Provincia</span>
+        </div>
+    </div>
+    <div class="row border-section rounded">
+        <div class="mb-3 col-md-3">
+            <label><b>Situación:</b></label>
+            <span>@empleado.Situacion</span>
+        </div>
+        <div class="mb-3 col-md-2">
+            <label><b>Código de baja:</b></label>
+            <span>@empleado.CodigoBaja</span>
+        </div>
+        <div class="mb-3 col-md-2">
+            <label><b>Carácter servicio:</b></label>
+            <span>@empleado.CaracterServicio</span>
+        </div>
+        <div class="mb-3 col-md-2">
+            <label><b>Categoría:</b></label>
+            <span>@empleado.Categoria</span>
+        </div>
+        <div class="mb-3 col-md-1">
+            <label><b>Discapacidad:</b></label>
+            <span>@empleado.Discapacidad</span>
+        </div>
+        <div class="mb-3 col-md-2">
+            <label><b>Domicilio de explotación:</b></label>
+            <span>@empleado.DomicilioExplotacion</span>
+        </div>
+    </div>
+    <div class="row border-section rounded">
+        <div class="mb-3 col-md-3">
+            <label><b>Teléfono:</b></label>
+            <span>@empleado.Telefono</span>
+        </div>
+        <div class="mb-3 col-md-9">
+            <label><b>Observaciones:</b></label>
+            <span>@empleado.Observaciones</span>
+        </div>
+    </div>
+
+    <button class="btn btn-secondary" @onclick="() => RedirectTo()">Volver</button>
+}
+
+@code {
+    [Parameter] public int id { get; set; }
+    Empleado empleado;
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var Db = DbFactory.CreateDbContext();
+        empleado = await Db.Empleado.FindAsync(id);
+    }
+
+    private void RedirectTo()
+    {
+        Navigation.NavigateTo("/datos_generales");
+    }
+}

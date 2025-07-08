@@ -1,6 +1,63 @@
 ﻿@page "/datos_generales"
-<h3>DatosGenerales</h3>
+
+@inject IDbContextFactory<SalaryBlazorApp.Repository.Data.AppDbContext> DbFactory
+@inject NavigationManager Navigation
+@using Microsoft.EntityFrameworkCore
+@using SalaryBlazorApp.Repository.Models
+
+<h3>Listado de Empleados</h3>
+
+<a class="btn btn-success mb-3" href="/empleados/crear">➕ Crear nuevo</a>
+
+@if (empleados == null)
+{
+    <p>Cargando...</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Legajo</th>
+                <th>Apellido</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var e in empleados)
+            {
+                <tr>
+                    <td>@e.Legajo</td>
+                    <td>@e.Apellido</td>
+                    <td>
+                        <a class="btn btn-primary btn-sm me-2" href="@($"/empleados/detalle/{e.Id}")">👁️ Ver</a>
+                        <a class="btn btn-warning btn-sm me-2" href="@($"/empleados/editar/{e.Id}")">✏️ Editar</a>
+                        <button class="btn btn-danger btn-sm" @onclick="() => EliminarEmpleado(e.Id)">🗑️ Eliminar</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
 @code {
+    List<Empleado> empleados;
 
+    protected override async Task OnInitializedAsync()
+    {
+        using var Db = DbFactory.CreateDbContext();
+        empleados = await Db.Empleado.ToListAsync();
+    }
+
+    async Task EliminarEmpleado(int id)
+    {
+        using var Db = DbFactory.CreateDbContext();
+        var emp = await Db.Empleado.FindAsync(id);
+        if (emp != null)
+        {
+            Db.Empleado.Remove(emp);
+            await Db.SaveChangesAsync();
+            empleados = await Db.Empleado.ToListAsync(); // Recargar
+        }
+    }
 }

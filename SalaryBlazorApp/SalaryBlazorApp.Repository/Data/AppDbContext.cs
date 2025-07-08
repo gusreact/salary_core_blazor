@@ -10,6 +10,7 @@ namespace SalaryBlazorApp.Repository.Data
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<MenuItem> MenuItem { get; set; }
+        public DbSet<Empleado> Empleado { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

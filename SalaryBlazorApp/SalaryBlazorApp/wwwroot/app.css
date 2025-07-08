@@ -70,6 +70,11 @@ h1:focus {
     display: flex;
 }
 
+.border-section{
+    border: 3px solid #006bb7;
+    padding: 6px;
+}
+
 .nav-item.has-children {
     position: relative;
 }
